@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -21,6 +21,15 @@ def helloworld():
 @app.route('/users', methods=['GET'])
 def get_user():
     return jsonify(user_list)
+
+
+@app.route('/user', methods=['POST'])
+def create_user():
+    user = request.get_json()
+    user_list.append(user)
+    return jsonify({
+        'message': 'user created'
+    })
 
 
 if __name__ == "__main__":
