@@ -26,10 +26,21 @@ def get_user():
 @app.route('/user', methods=['POST'])
 def create_user():
     user = request.get_json()
-    user_list.append(user)
-    return jsonify({
-        'message': 'user created'
-    })
+    user_check = list(
+        filter(
+            lambda x: user.get('username') == x['username'],
+            user_list
+        )
+    )
+    if not user_check:
+        user_list.append(user)
+        return jsonify({
+            'message': 'user created'
+        })
+    else:
+        return jsonify(
+            {'message': 'user exist'}
+        )
 
 
 if __name__ == "__main__":
