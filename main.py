@@ -43,5 +43,15 @@ def create_user():
         )
 
 
+@app.route('/user/<username>', methods=['DELETE'])
+def delete_user(username):
+    for user in user_list:
+        if user['username'] == username:
+            user_list.remove(user)
+    return jsonify(
+        {'message': 'user deleted'}
+    )
+
+
 if __name__ == "__main__":
     app.run()
