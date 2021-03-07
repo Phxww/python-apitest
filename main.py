@@ -43,14 +43,31 @@ def create_user():
         )
 
 
-@app.route('/user/<username>', methods=['DELETE'])
+@app.route('/user/<username>', methods=['DELETE', 'PUT'])
 def delete_user(username):
+    user_find = None
     for user in user_list:
         if user['username'] == username:
-            user_list.remove(user)
-    return jsonify(
-        {'message': 'user deleted'}
-    )
+            user_find = user
+    if not user_find:
+        return jsonify(
+            {'message': 'user not found'}
+        )
+    if request.method == 'DELETE':
+        user_list.remove(user)
+        return jsonify(
+            {'message': 'user deleted'}
+        )
+    elif request.method == 'PUT':
+        new_password = request.get_json()
+        user_list.remove(user_find)
+        user_list.append({
+            'username': username,
+            'password': new_password['password']
+        })
+        return({
+            'message': 'user password updated'
+        })
 
 
 if __name__ == "__main__":
