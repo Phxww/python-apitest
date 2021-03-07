@@ -1,10 +1,27 @@
-from flask import Flask
+from flask import Flask, jsonify
 
 app = Flask(__name__)
+
+user_list = [
+    {
+        'username': 'abc',
+        'password': 'abc',
+    }, {
+        'username': '123',
+        'password': '123',
+    }
+]
+
 
 @app.route('/')
 def helloworld():
     return "hello world!!"
+
+
+@app.route('/users', methods=['GET'])
+def get_user():
+    return jsonify(user_list)
+
 
 if __name__ == "__main__":
     app.run()
